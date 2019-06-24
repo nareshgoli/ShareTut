@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<html>
+    <body>
+        <button class="btn btn-default"><a href="/tech/">Go Back</a></button>
+        <img src="{{technology.img}}" />
+        <p>{{ technology.title }}</p>
+        {% for tutorial in tutorials %}
+            {{ tutorial.websitename }}
+            <a href="{% url 'tut_upvote' pk=tutorial.pk %}">{{ tutorial.upvote }}</a>
+            <button class="btn btn-default"><a href="{{ tutorial.url }}">Visit Tutorial</a></button>
+            <div class="row">
+                {{ tutorial.type }}
+                {{ tutorial.plan }}
+                {{ tutorial.audience }}
+            </div>        
+        {% endfor %}        
+
+    </body>
+</html>
+{% endblock content %}

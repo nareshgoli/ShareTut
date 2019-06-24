@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<!DOCTYPE html>
+<body>
+    <div class="row">
+    <h1>ShareTut</h1>  
+    <button class="btn btn-default"><a href="/tut/create">Submit a Tutorial</a></button>
+    <button class="btn btn-default"><a href="/login/">Log Out</a></button>
+    </div>
+    <h1>Technologies</h1>
+    {% for tech in technologies %}
+        <img src="{{tech.img}}"/>
+        <a href="{% url 'tech_detail' pk=tech.pk %}">{{ tech.title }}</a>
+    {% endfor %}
+</body>
+{% endblock content %}
