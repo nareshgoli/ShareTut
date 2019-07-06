@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from .forms import PostModelForm, TutModelForm, UserRegisterForm
-from .models import Technology, Tutorial
+from .models import Technology, Tutorial, Upvote
 
 
 def list_tech(request):
+    print(request.user)
     technologies = Technology.objects.all()
     context = {
         'technologies': technologies
@@ -55,7 +56,17 @@ def tut_upvote(request, pk):
     tutorial = get_object_or_404(Tutorial, pk=pk)
     tutorial.upvote +=1
     tutorial.save()
+    upvote = Upvote.objects.create(tutorial=tutorial, user=request.user)
     return redirect("tech_detail", pk = tutorial.tech.pk)
+
+def tut_unupvote(request, pk):
+    tutorial = get_object_or_404(Tutorial, pk=pk)
+    tutorial.upvote -=1
+    tutorial.save()
+    upvote = Upvote.objects.filter(tutorial=tutorial, user=request.user).first()
+    upvote.delete()
+    return redirect("tech_detail", pk = tutorial.tech.pk)    
+
 
 def register(request):
     if request.method == 'POST':

@@ -1,5 +1,6 @@
 {% extends 'blog/base.html' %}
 {% block content %}
+{% load upvote_utils %}
 <html>
     <body>
         <button class="btn btn-default"><a href="/tech/">Go Back</a></button>
@@ -7,13 +8,18 @@
         <p>{{ technology.title }}</p>
         {% for tutorial in tutorials %}
             {{ tutorial.websitename }}
-            <a href="{% url 'tut_upvote' pk=tutorial.pk %}">{{ tutorial.upvote }}</a>
+            {% if tutorial|is_upvoted_by:request.user %}
+                <a href="{% url 'tut_unupvote' pk=tutorial.pk %}">{{ tutorial.upvote }}</a>
+            {% else %}
+                <a href="{% url 'tut_upvote' pk=tutorial.pk %}">{{ tutorial.upvote }}</a>
+            {% endif %}    
             <button class="btn btn-default"><a href="{{ tutorial.url }}">Visit Tutorial</a></button>
             <div class="row">
                 {{ tutorial.type }}
                 {{ tutorial.plan }}
                 {{ tutorial.audience }}
             </div>        
+            <p>Submited By {{ tutorial.users }}</p>
         {% endfor %}        
 
     </body>

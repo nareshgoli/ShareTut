@@ -38,7 +38,17 @@ class Tutorial(models.Model):
     audience = models.CharField(max_length=150, choices=audience_choices, default="BEGINNER")
     upvote = models.IntegerField(default=0)
 
+    @property
+    def is_user_upvoted(self, user):
+        upvote = Upvote.objects.filter(tutorial=self, user=user).first()
+        return bool(upvote)
+
     def __str__(self):
         return "Tutorial: {}".format(self.url)
 
+class Upvote(models.Model):
+    tutorial = models.ForeignKey('Tutorial', on_delete=models.CASCADE, related_name="upvotes")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)        
 
+    def __str__(self):
+        return self.tutorial
