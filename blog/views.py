@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.shortcuts import get_object_or_404
 from .forms import PostModelForm, TutModelForm, UserRegisterForm
 from .models import Technology, Tutorial, Upvote
+from django.contrib.auth.decorators import login_required
 
 
 def list_tech(request):
@@ -23,7 +24,7 @@ def tech_create(request):
     form = PostModelForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         form.save()
-        return redirect('/tech/')
+        return redirect('/')
     context = {
         'form' : form
     }
@@ -52,6 +53,7 @@ def tut_create(request):
     }
     return render(request, "blog/tut_create.html", context)
 
+@login_required(login_url="/login/")
 def tut_upvote(request, pk):
     tutorial = get_object_or_404(Tutorial, pk=pk)
     tutorial.upvote +=1
@@ -59,6 +61,7 @@ def tut_upvote(request, pk):
     upvote = Upvote.objects.create(tutorial=tutorial, user=request.user)
     return redirect("tech_detail", pk = tutorial.tech.pk)
 
+@login_required(login_url="/login/")
 def tut_unupvote(request, pk):
     tutorial = get_object_or_404(Tutorial, pk=pk)
     tutorial.upvote -=1

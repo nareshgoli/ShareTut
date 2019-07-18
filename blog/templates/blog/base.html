@@ -70,14 +70,25 @@
       <header class="header">
           <nav class="header-nav">
             <h2 class="site-logo"><a href="{% url 'list_tech' %}">ShareTut</a></h2>
+            {% if request.user.is_authenticated %}
             <ul class="nav-items">
                 <li class="nav-items__item">
                     <a href="/tut/create" class="btn btn-primary">Submit a Tutorial</a>
                 </li>
                 <li class="nav-items__item">
                     <a href="/logout/" class="btn btn-primary">Log Out</a>
-                </li>
-            </ul>
+                    </li>
+                </ul>    
+            {% else %}
+                <ul class="nav-items">
+                    <li class="nav-items__item">
+                        <a href="/register/" class="btn btn-primary">Register</a>
+                    </li>
+                    <li class="nav-items__item">
+                        <a href="/login/" class="btn btn-primary">Log In</a>
+                    </li>
+                </ul>
+            {% endif %}
         </nav>
       </header>
         <div class="col-sm-6 col-sm-offset-3">

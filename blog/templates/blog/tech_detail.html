@@ -96,7 +96,7 @@
             {% for tutorial in tutorials %}
                 <div class="tutorial-card">
                     <div class="upvotes"> 
-                        {% if tutorial|is_upvoted_by:request.user %}
+                        {% if request.user.is_authenticated and tutorial|is_upvoted_by:request.user %}
                             <a href="{% url 'tut_unupvote' pk=tutorial.pk %}">
                                 <span class="upvote-symbol">^</span>
                                 {{ tutorial.upvote }}

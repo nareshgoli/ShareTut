@@ -3,7 +3,7 @@ from .views import list_tech, tech_detail, tech_create, tut_create, register,tut
 from django.contrib.auth import views 
 
 urlpatterns = [
-    path('tech/', list_tech, name='list_tech'),
+    path('', list_tech, name='list_tech'),
     path('<int:pk>/', tech_detail, name="tech_detail"),
     path('tech/create/', tech_create,name="tech_create"),
     path('tut/create', tut_create, name="tut_create"),
